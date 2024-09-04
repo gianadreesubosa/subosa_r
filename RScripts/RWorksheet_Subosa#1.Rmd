@@ -1,0 +1,156 @@
+---
+title: "RWorksheet_Subosa"
+author: "Gian Adree Subosa"
+date: "2024-09-04"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#1.Set up a vector named age
+``` {r setup}
+age <- c(34, 28, 22, 36, 27, 18, 52, 39, 42, 29, 35, 31, 27, 22, 37, 34, 19, 20, 57, 49, 50, 37, 46, 25, 17, 37, 42, 53, 41, 51, 35, 24, 33, 41)
+
+num_data_points <-length(age)
+
+#How many data points?
+num_data_points
+```
+#2.Reciprocal age
+``` {r setup}
+#Write the code...
+library(MASS)
+reciprocal_age <- fractions(1 / age)
+#...and its output
+reciprocal_age
+```
+#3. Assign
+``` {r setup}
+new_age <- c(age, 0, age)
+
+#What happens to new_age?
+new_age
+```
+#4. Sort
+```{r setup}
+#Write the code and its output
+sort(age)
+```
+#5. Find minimum and maximum value for age
+``` {r setup}
+#These are the codes:
+min_age <- min(age)
+max_age <- max(age)
+
+#These are the outputs:
+min_age
+max_age
+```
+#6. Set up a vector named data
+```{r setup}
+data <- c(2.4, 2.8, 2.1, 2.5, 2.4, 2.2, 2.5, 2.3, 2.5, 2.3, 2.4, 2.7)
+
+#How many data points? Write the R code and its output.
+num_data_points <- length(data)
+num_data_points
+```
+#7. Generate a new vector for data where you double every value of the data
+```{r setup}
+new_data <- c(data ^ 2)
+new_data
+#It was noticed that the value of data itself has been doubled after using the "^" operator.
+```
+#8.1 and 8.2 Generate a sequence
+```{r setup}
+#Integers from 1 to 100
+seq_8.1 <- 1:100
+seq_8.1
+#Numbers from 20 to 60
+seq_8.2 <- 20:60
+seq_8.2
+```
+#8.3 Mean of numbers from 20 to 60
+```{r setup}
+mean_numbers <- mean(seq_8.2)
+mean_numbers
+```
+#8.4 Sum of numbers from 51 to 91
+```{r setup}
+sum_numbers <- sum(51:91)
+sum_numbers
+```
+#8.5 Integers from 1 to 1000
+```{r setup}
+seq_8.5 <- 1:1000
+seq_8.5
+
+#Find the maximum  value until 10.
+sequence_8.5 <- 1:10
+sequence_8.5
+length_8.5 <- length(sequence_8.5)
+length_8.5
+```
+#9 Filter Option
+```{r setup}
+#Write the code...
+integers <- seq(100)
+filtered_integers <- Filter(function(i) { all(i %% c(3,5,7) != 0) }, seq(100))
+#...and its output
+filtered_integers
+```
+#10 Generate a sequence backwards of the integers from 1 to 100.
+```{r setup}
+#Write the code...
+sequence_i <- 1:100
+rev_sequence_i <- rev(sequence_i)
+#...and its output
+print(rev_sequence_i)
+```
+#11. List all the natural numbers below 25 that are multiples of 3 or 5.
+```{r setup}
+#Natural numbers
+numbers <- 1:24
+#Find numbers that are multiples of 3 or 5
+multiples_of_3_or_5 <- numbers[numbers %% 3 == 0 | numbers %% 5 == 0]
+#Sum of multiples
+sum_multiples <- sum(multiples_of_3_or_5)
+#The outputs are:
+multiples_of_3_or_5
+sum_multiples
+```
+#12 Statements.
+```{r setup}
+x <- {0 + x + 5 + }
+
+# The vector indicates that R encountered an unexpected end of input because the expression is not complete. R is expecting more input to finish the statement.
+```
+#13. Set up a vector named score
+```{r}
+#Set up the vector
+score <- c(72, 86, 92, 63, 88, 89, 91, 92, 75, 75, 77)
+x2 <- score[2]
+x3 <- score[3]
+#The outputs are
+x2
+x3
+```
+#14 Create another vector.
+```{r}
+# Create the vector
+a <- c(1, 2, NA, 4, NA, 6, 7)
+#Print the vector with NA values displayed as -999
+print(a, na.print = "-999")
+#output 
+#     2 -999    4 -999    6    7 
+#Original Vector: a is c(1, 2, NA, 4, NA, 6, 7). Printing with na.print: NA values are displayed as -999 in the output. The actual vector a stays the same; only how it’s printed is affected.
+```
+#15 Special function.
+```{r setup}
+#Prompt for name and age.
+name = readline(prompt="Input your name: ")
+age = readline(prompt="Input your age: ")
+#Print the output.
+print(paste("My name is", name, "and I am", age, "years old."))
+```
