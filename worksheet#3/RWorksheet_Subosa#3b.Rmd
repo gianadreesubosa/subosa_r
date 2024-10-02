@@ -1,0 +1,141 @@
+---
+title: "RWorksheet_Subosa#3b.Rmd"
+author: "Gian Adree Subosa"
+date: "2024-10-02"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#1. Create a data frame using the table below
+```{r}
+#a.) Write the codes
+respondents <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+sex <- c(2, 2, 1, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 1, 2, 2, 1, 2)
+father <- c(1, 3, 3, 3, 1, 2, 3, 1, 1, 2, 3, 2, 1, 3, 3, 1, 3, 1, 2, 1)
+persons <- c(5, 7, 3, 8, 5, 9, 6, 7, 8, 4, 7, 5, 4, 7, 8, 8, 3, 11, 7, 6)
+siblings <- c(6, 4, 4, 1, 2, 1, 5, 3, 1, 2, 3, 2, 5, 5, 2, 1, 2, 5, 3, 2)
+houses <- c(1, 2, 3, 1, 1, 3, 3, 1, 2, 3, 2, 3, 2, 2, 3, 3, 3, 3, 3, 2)
+
+data_table <- data.frame(Respondents = respondents, Sex = sex, Fathers_Occupation = father, Persons_at_Home = persons, Siblings_at_school = siblings, Types_of_houses = houses)
+print(data_table)
+```
+
+```{r}
+#b.) Describe the data. Get the structure or the summary of the data
+
+#The data was organized by using data frame, enable to generate a table output
+
+#Structure and summary of the data
+summary(data_table)
+str(data_table)
+```
+
+```{r}
+#c.) Is the mean number of siblings attending is 5?
+mean_sibling <- mean(data_table$Siblings_at_school)
+mean_sibling == 5
+print(mean_sibling)
+#The answer is NO. The mean number of siblings attending is not 5 but 2.95
+```
+
+```{r}
+#d.) Extract the 1st two rows and then all the columns using the subsetting functions
+first_2_rows <- data_table[1:2, ]
+print(first_2_rows)
+```
+
+```{r}
+#e.) Extract 3rd and 5th row with 2nd and 4th column
+extract_df <- data_table[c(3, 5), c(2, 4)]
+print(extract_df)
+```
+
+```{r}
+#f.) Select the variable types of houses then store the vector that results as types_houses
+types_houses <- data_table$Types_of_houses
+print(types_houses)
+```
+
+```{r}
+#g.) Select only all Males respondent that their father occupation was farmer
+m_farmers <- data_table[data_table$Sex == 1 & data_table$Fathers_Occupation == 1, ]
+print(m_farmers)
+```
+
+```{r}
+#h.) Select only all females respondent that have greater than or equal to 5 number of siblings attending school
+f_siblings <- data_table[data_table$Sex == 2 & data_table$Siblings_at_school >= 5, ]
+print(f_siblings)
+```
+
+#2. Write a R program to create an empty data frame
+```{r}
+df = data.frame(Ints=integer(),
+Doubles=double(), Characters=character(),
+Logicals=logical(),
+Factors=factor(),
+stringsAsFactors=FALSE)
+print("Structure of the empty dataframe:")
+print(str(df))
+
+#a.) Describe the results
+#The result of this program is NULL and it has no observations.
+```
+
+#3. Create a .csv file of this. Save it as HouseholdData.csv
+```{r}
+respondents <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+sex <- c("Male", "Female", "Female", "Male", "Male", "Female", "Female", "Male", "Female", "Male")
+father <- c(1, 2, 3, 3, 1, 2, 2, 3, 1, 3)
+persons <- c(5, 7, 3, 8, 6, 4, 4, 2, 11, 6)
+siblings <- c(2, 3, 0, 5, 2, 3, 1, 2, 6, 2)
+houses <- c("Wood", "Congrete", "Congrete", "Wood", "Semi-congrete", "Semi-congrete", "Wood", "Semi-congrete", "Semi-congrete", "Congrete")
+
+houseData <- data.frame(Respondents = respondents, Sex = sex, Fathers_Occupation = father, Persons_at_Home = persons, Siblings_at_School = siblings, Types_of_Houses = houses)
+print(houseData)
+```
+
+```{r}
+#a.) Import the csv file into the R environment
+write.csv(houseData, file = "HouseholdData.csv", row.names = FALSE)
+importedData <- read.csv("HouseholdData.csv")
+print(importedData)
+```
+
+```{r}
+#b.) Convert the Sex into factor using factor() function and change it into integer
+importedData$Sex <- factor(importedData$Sex, levels = c("Male", "Female"), labels = c(1, 2))
+print(importedData)
+```
+
+```{r}
+#c.) Convert Type of Houses into a factor and change to integer
+importedData$Types_of_Houses <- factor(importedData$Types_of_Houses, levels = c("Wood", "Congrete", "Semi-congrete"), labels = c(1, 2, 3))
+print(importedData)
+```
+
+```{r}
+#d.) On father’s occupation, factor it as Farmer = 1; Driver = 2; and Others = 3
+importedData$Fathers_Occupation <- factor(importedData$Fathers_Occupation, levels = c("Farmer", "Driver", "Others"), labels = c(1, 2, 3))
+print(importedData)
+```
+
+```{r}
+#e.) Select only all females respondent that has a father whose occupation is driver
+femresp_drivers <- subset(importedData, Sex == 2 & Fathers_Occupation == 2)
+print(femresp_drivers)
+```
+
+```{r}
+#f.) Select respondents with greater than or equal to 5 siblings attending school
+siblings_grth_5 <- subset(importedData, Siblings_at_School >= 5)
+print(siblings_grth_5)
+```
+
+#4. Interpret the graph
+```{r}
+#This graph shows the sentiment analysis of tweets from July 14, 2020 to July 21, 2020, grouped into negative, neutral, and positive sentiment. The x-axis shows the combination of tweet date (July 14, 2020 to July 21, 2020) and the corresponding sentiment type: negative (red), neutral (orange), and positive (blue). . For each day, the graph shows three bars representing the number of tweets classified as negative, neutral and positive. The y-axis shows the number of tweets in each emotional category. The height of the bars indicates the amount of tweets expressing negative, neutral, or positive opinions. Negative sentiments (in red) are the most frequent days, especially July 15, 2020 and July 21, 2020, where the number of tweets exceeds the 4,000 This may indicate that events these days have caused a wave of negative discussions on social media. Neutral sentiment remains constant (clockwise) over time, with most tweets between 2,000 and 3,000 fewer tweets than negative sentiment on most days, but still significant more than good intentions sometimes. Emotions (in blue) vary throughout the day. On July 15, 2020, there were a lot of positive tweets, but fewer negative ones. Likes show an increase until July 21, 2020, indicating that many users had a good tweet during that time. This analysis can be used to track public reactions to events, products, or news today, and may provide strategies to improve public opinion.
+```
