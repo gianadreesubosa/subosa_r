@@ -1,0 +1,50 @@
+---
+title: "RWorksheet_Subosa#4a.Rmd"
+author: "Gian Adree Subosa"
+date: "2024-10-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#1. Data for shoe size and height
+```{r}
+# Create the data frame
+shoe_size <- c(6.5, 9.0, 8.5, 8.5, 10.5, 7.0, 9.5, 9.0, 13.0, 7.5, 8.5, 10.5, 12.0, 10.5, 13.0, 11.5, 8.5, 5.0, 10.0, 6.5, 8.5, 8.5, 10.5, 11.0, 9.0, 13.0)
+height <- c(66.0, 68.0, 64.5, 65.0, 70.0, 64.0, 69.0, 71.0, 72.0, 64.0, 67.0, 74.5, 71.0, 71.0, 77.0, 72.0, 59.0, 62.0, 72.0, 66.0, 64.0, 67.0, 69.0, 73.0, 69.0, 70.0)
+gender <- c('F', 'F', 'F', 'F', 'M', 'F', 'F', 'M', 'M', 'F', 'F', 'M', 'M', 'M', 'M', 'M', 'F', 'F', 'M', 'F', 'F', 'M', 'M', 'M', 'M', 'M')
+
+df <- data.frame(Shoe_Size = shoe_size, Height = height, Gender = gender)
+summary(df)
+
+#a.) Describe the data.
+#       The data contains information about the shoe size, height and gender. The data indicates that males tend to have larger shoe sizes and greater heights compared to females, as reflected in the overall summary. 
+```
+
+```{r}
+#b.) Create a subset
+male_subset <- subset(df, Gender == 'M')
+female_subset <- subset(df, Gender == 'F')
+print(male_subset)
+print(female_subset)
+```
+
+```{r}
+#c.) Find the mean of shoe size and height of the respondents
+mean_shoe_size <- mean(df$Shoe_Size)
+mean_height <- mean(df$Height)
+print(mean_shoe_size)
+print(mean_height)
+```
+
+```{r}
+#d.) Is there a relationship between shoe size and height? Why?
+correlation_data <- cor(df$Shoe_Size, df$Height)
+print(correlation_data)
+
+# A correlation of 0.7750242 indicates a strong positive relationship between shoe size and height. This means that, generally, as shoe size increases, height also increases among the respondents.
+```
+
+#2. 
