@@ -2,7 +2,7 @@
 title: "RWorksheet_Subosa#4a.Rmd"
 author: "Gian Adree Subosa"
 date: "2024-10-18"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -47,4 +47,31 @@ print(correlation_data)
 # A correlation of 0.7750242 indicates a strong positive relationship between shoe size and height. This means that, generally, as shoe size increases, height also increases among the respondents.
 ```
 
-#2. 
+#2. Construct character vector months to a factor with factor() and assign the result to factor_months_vector
+```{r}
+months_vector <- c("March", "April", "January", "November", "January", "September", "October", "September", "November", "August", "January", "November", "November", "February", "May", "August", "July", "December", "August", "August", "September", "November", "February", "April")
+factor_months_vector <- factor(months_vector)
+print(factor_months_vector)
+```
+
+#3. Check the summary() of the months_vector and factor_months_vector
+```{r}
+summary(months_vector)
+summary(factor_months_vector)
+
+# Are they both equally useful in this case?
+#         The factor vector is more beneficial in this scenario because it provides a clear split of the number of occurrences for each month, making data analysis and interpretation easier. In contrast, the character vector lacks the ability to summarize the frequency of unique values. As a result, turning the months to a factor with factor() is more suited for evaluating categorical data such as month names.
+```
+
+#4. Create a vector for direction and frequency and factor below
+```{r}
+direction <- c("East", "West", "North")
+frequency <- c(1, 4, 3)
+
+direction_data <- data.frame(Direction = direction, Frequency = frequency)
+
+factor_data <- factor(direction_data$Direction)
+
+new_order_data <- factor(factor_data, levels = c("East", "West", "North"))
+print(new_order_data)
+```
