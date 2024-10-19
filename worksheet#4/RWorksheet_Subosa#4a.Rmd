@@ -75,3 +75,14 @@ factor_data <- factor(direction_data$Direction)
 new_order_data <- factor(factor_data, levels = c("East", "West", "North"))
 print(new_order_data)
 ```
+
+#5. Enter the data below in Excel with file name = import_march.csv
+```{r}
+#a.) Import the excel file into the Environment Pane using read.table() function
+data_table <- read.table("import_march.csv", header = TRUE, sep = ",", stringsAsFactors = FALSE)
+print(data_table)
+```
+```{r}
+#b.) View the dataset
+View(data_table)
+```
