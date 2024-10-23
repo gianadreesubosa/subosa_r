@@ -89,7 +89,9 @@ enter_number <- function() {
   cat("Select a number from 1 to 50:\n")
   user_input <- as.numeric(readline(prompt = "Enter a number: "))
   
-  if (user_input < 1 || user_input > 50) {
+  if (is.na(user_input)) {
+    cat("Invalid input! Please enter a number.\n")
+  } else if (user_input < 1 || user_input > 50) {
     cat("The number selected is beyond the range of 1 to 50\n")
   } else {
     if (user_input == 20) {
@@ -99,7 +101,6 @@ enter_number <- function() {
     }
   }
 }
-
 enter_number()
 ```
 
