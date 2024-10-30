@@ -1,0 +1,130 @@
+---
+title: "RWorksheet_Subosa#4b.Rmd"
+author: "Gian Adree Subosa"
+date: "2024-10-30"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#1. Using the for loop, create an R script that will display a 5x5 matrix
+```{r}
+vectorA <- c(1, 2, 3, 4, 5)
+matrix5x5 <- matrix(0, nrow = 5, ncol = 5)
+
+for (i in 1:5) {
+  for (j in 1:5) {
+    matrix5x5[i, j] <- abs(vectorA[i] - vectorA[j])
+  }
+}
+
+print(matrix5x5)
+```
+
+#2. Print the string "*" using for() function
+```{r}
+asteris <- 5
+
+for(i in 1:asteris) {
+  cat(rep("*", i), "\n")
+}
+```
+
+#3. Fibonacci Sequence
+```{r}
+val <- 25
+
+a <- 0
+b <- 1
+
+if (val <= a) {
+  cat(a, " ")
+}
+if (val <= b) {
+  cat(b, " ")
+}
+
+repeat {
+  next_number <- a + b
+  if (next_number > 500) {
+    break
+  }
+  if (next_number >= val) {
+    cat(next_number, " ")
+  }
+  
+  a <- b
+  b <- next_number
+}
+```
+
+#4. Import the dataset
+```{r}
+#a.) Import the file. Display the first 6 rows of the dataset
+my_data <- read.csv("shoe_height_gender_data.csv")
+head(my_data)
+```
+
+```{r}
+#b.) Create a subset for gender(female and male)
+m_sub <- subset(my_data, Gender == "M")
+f_sub <- subset(my_data, Gender == "F")
+
+num_Male <- nrow(m_sub)
+num_Female <- nrow(f_sub)
+
+cat("Number of Male observations: ",num_Male, "\n")
+cat("Number of Female observations: ",num_Female, "\n")
+```
+
+```{r}
+#c.) Create a graph for the number of males and females for Household Data
+male_count <- nrow(subset(my_data, Gender == "M"))
+female_count <- nrow(subset(my_data, Gender == "F"))
+
+gender_count <- data.frame(
+  Gender = c("Male", "Female"),
+  Count = c(num_Male, num_Female)
+)
+
+barplot(
+  height = gender_count$Count,
+  names.arg = gender_count$Gender,
+  col = c("blue", "pink"),
+  main = "Number of Males and Females in Household Data",
+  xlab = "Gender",
+  ylab = "Number of Observations",
+  legend.text = TRUE,
+  beside = TRUE
+)
+legend("topright", legend = gender_count$Gender, fill = c("blue", "pink"))
+```
+
+#5. Monthly income of DeLaCruz family
+```{r}
+# Data for Dela Cruz family's monthly income distribution
+expenses <- c(60, 10, 5, 25)
+labels <- c("Food", "Electricity", "Savings", "Miscellaneous")
+
+#a.) Create a pie chart that will include labels in percentage
+percentages <- round(expenses / sum(expenses) * 100, 1)
+labels_with_percentages <- paste(labels, percentages, "%", sep = " ")
+colors <- c("lightblue", "lightgreen", "red", "yellow")
+
+pie(
+  expenses,
+  labels = labels_with_percentages,
+  col = colors,
+  main = "Monthly Income Distribution of Dela Cruz Family"
+)
+legend("topright", legend = labels, fill = colors)
+```
+
+
+
+
+
+
+
