@@ -122,6 +122,77 @@ pie(
 legend("topright", legend = labels, fill = colors)
 ```
 
+#6. The iris dataset
+```{r}
+#a.) Check for the structure of the dataset using the str() function
+data(iris)
+str(iris)
+#The dataset shows its dimensions which are 150 observations and 5 variables.
+```
+
+```{r}
+#b.) Create an R object that will contain the mean of the sepal.length, sepal.width,petal.length,and petal.width
+mean_values <- colMeans(iris[, 1:4])
+print(mean_values)
+```
+
+```{r}
+#c.) Create a pie chart for the Species distribution
+data(iris)
+species_counts <- table(iris$Species)
+colors <- c("skyblue", "lightgreen", "salmon")
+
+pie(species_counts,
+    main = "Species Distribution in Iris Dataset",
+    col = colors,
+    labels = paste(names(species_counts), "(", species_counts, ")", sep = "")
+)
+
+legend("topright", 
+       legend = names(species_counts), 
+       fill = colors,
+       title = "Species")
+```
+
+```{r}
+#d.) Subset the species into setosa, versicolor, and virginica
+data(iris)
+setosa <- subset(iris, Species == "setosa")
+versicolor <- subset(iris, Species == "versicolor")
+virginica <- subset(iris, Species == "virginica")
+
+tail(setosa, 6)
+tail(versicolor, 6)
+tail(virginica, 6)
+```
+
+```{r}
+#e.) Create a scatterplot
+data(iris)
+iris$Species <- as.factor(iris$Species)
+species_colors <- c("setosa" = "orange", "versicolor" = "blue", "virginica" = "green")
+species_symbols <- c("setosa" = 16, "versicolor" = 17, "virginica" = 18)
+
+plot(iris$Sepal.Length, iris$Sepal.Width,
+     main = "Iris Dataset",
+     sub = "Sepal Width and Length",
+     xlab = "Sepal Length",
+     ylab = "Sepal Width",
+     col = species_colors[iris$Species],
+     pch = species_symbols[iris$Species])
+
+legend("topright",
+       legend = levels(iris$Species),
+       col = c("orange", "blue", "green"),
+       pch = c(16, 17, 18),
+       title = "Species")
+```
+
+```{r}
+#f.) Interpret the result
+
+#This scatterplot clearly illustrates the differences in sepal diameters between the three iris flower species. Setosa is easily identified by its wider and shorter sepals, but virginica and versicolor share some similarities, with virginica having the longest sepals overall. The natural grouping of species according to their sepal traits can be better understood with the help of this depiction.
+```
 
 
 
