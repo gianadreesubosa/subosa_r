@@ -194,8 +194,49 @@ legend("topright",
 #This scatterplot clearly illustrates the differences in sepal diameters between the three iris flower species. Setosa is easily identified by its wider and shorter sepals, but virginica and versicolor share some similarities, with virginica having the longest sepals overall. The natural grouping of species according to their sepal traits can be better understood with the help of this depiction.
 ```
 
+#7. Basic Cleaning and Transformation of Objects
+```{r}
+#a.) Rename the white and black variants by using gsub() function
+data_frame <- read_excel("alexa_file.xlsx")
+head(data_frame)
+```
 
+```{r}
+#b.) Get the total number of each variations and save it into another object
+count_var <- data_frame %>%
+  count(variation)
+print(count_var)
+save(count_var, file = "variations.RData")
+```
 
+```{r}
+#c.) From the variations.RData, create a barplot()
+barplot(
+  count_var$n,                         
+  names.arg = count_var$variation,     
+  main = "Count of Each Variation",           
+  xlab = "Variation",                         
+  ylab = "Total Count",                       
+  col = rainbow(length(count_var$n)),  
+  las = 2                                     
+)
+```
+
+```{r}
+#d.) Create a barplot() for the black and white variations
+black_and_white <- subset(count_var, grepl("Black|White", count_var$variation))
+
+barplot(
+  black_and_white$n,
+  names.arg = black_and_white$variation,
+  main = "Count of Black and White Variations",
+  xlab = "Variation",
+  ylab = "Total Count",
+  col = c("black", "gray"),                   
+  beside = TRUE                               
+)
+
+```
 
 
 
