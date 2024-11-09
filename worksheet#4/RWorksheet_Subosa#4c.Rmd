@@ -1,0 +1,115 @@
+---
+title: "RWorksheet_Subosa#4c.Rmd"
+author: "Gian Adree Subosa"
+date: "2024-11-09"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#1. Use dataset mpg
+```{r}
+#a.) Show your solutions on how to import a csv file into the environment.
+mpg_file <- read.csv("mpg.csv")
+head(mpg_file)
+str(mpg_file)
+```
+
+```{r}
+#b.) Which variables from mpg dataset are categorical?
+
+#According to my observation, the variables from the mpg dataset that are seemly categoral are the following:
+# - manufacturer: that indicates the manufacturer name
+# - model: that indicates the model name
+# - trans: the type of transmission system the vehicle uses 
+# - drv: indicating whether the vehicle is front-wheel drive (f), rear-wheel drive (r), or four-wheel drive (4)
+# - fl: the type of fuel
+# - class: the general category or type of the vehicle
+```
+
+```{r}
+#c.) Which are continuous variables?
+
+#The following are the continuous variables in the mpg dataset:
+# - dspl: the engine displacement in liters
+# - year: the year of manufacture
+# - cyl: the number of cylinders
+# - cty: the city miles per hour
+# - hwy: the highway miles per gallon
+```
+
+#2.1 Which manufacturer has the most models in this data set? Which model has the most variations?
+```{r}
+#a.) Group the manufacturers and find the unique models
+library(dplyr)
+data(mpg, package = "ggplot2")
+
+modelmanufacturer <- mpg %>%
+  group_by(manufacturer) %>%
+  summarize(unique_models = n_distinct(model)) %>%
+  arrange(desc(unique_models))
+
+print(modelmanufacturer)
+
+modelvariations <- mpg %>%
+  group_by(model) %>%
+  summarize(variations = n()) %>%
+  arrange(desc(variations))
+
+print(modelvariations)
+```
+
+```{r}
+#b.) Graph the result by using plot() and ggplot()
+modelmanufacturer$manufacturer <- factor(modelmanufacturer$manufacturer, levels = modelmanufacturer$manufacturer)
+
+barplot(modelmanufacturer$unique_models, 
+        names.arg = modelmanufacturer$manufacturer,
+        main = "The Number of Unique Models by Manufacturer",
+        xlab = "Manufacturer",
+        ylab = "Unique Models",
+        col = "pink",
+        las = 2, 
+        cex.names = 0.7)
+```
+
+#2.2 Same dataset will be used. You are going to show the relationship of the modeland the manufacturer.
+```{r}
+#a.) What does ggplot(mpg, aes(model, manufacturer)) + geom_point() show?
+library(ggplot2)
+ggplot(mpg, aes(x = model, y = manufacturer)) + geom_point() + theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(title = "Relationship of Car Models per Manufacturer", 
+       x = "Car Model",
+       y = "Manufacturer"
+  )
+#The data is presented in the form of a scatter plot, with a point at each model and manufacturer combination. It depicts which manufacturers produce which models, but it does not properly represent the number of variations for each model because it just displays the presence or absence of each combination.
+```
+
+```{r}
+#b.) For you, is it useful? If not, how could you modify the data to make it more informative?
+
+#Because of the overlapping points, this visualization is currently ineffective. A better approach could be summarizing and color-code by count that display the counts of differences in size or color intensity and/or consider inverting the coordinates for better reading. Here's how you can modify the data:
+
+modelmanufacturer <- mpg %>%
+  group_by(model, manufacturer) %>%
+  summarize(variations = n())
+
+ggplot(modelmanufacturer, aes(x = model, y = manufacturer, size = variations)) +
+  geom_point(color = "red", alpha = 0.6) +
+  labs(title = "Relationship of Model and Manufacturer Variations", x = "Model", y = "Manufacturer") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+```
+
+#3. Plot the model and the year using ggplot(). Use only the top 20 observations.
+```{r}
+library(ggplot2)
+top_20_mpg <- head(mpg, 20)
+
+ggplot(top_20_mpg, aes(x = model, y = year)) +
+  geom_point(color = "green", size = 3) +
+  labs(title = "Top 20 Observations for Model by Year", x = "Model", y = "Year") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
