@@ -2,7 +2,9 @@
 title: "RWorksheet_Subosa#4c.Rmd"
 author: "Gian Adree Subosa"
 date: "2024-11-09"
-output: pdf_document
+output:
+  pdf_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -111,5 +113,199 @@ ggplot(top_20_mpg, aes(x = model, y = year)) +
   geom_point(color = "green", size = 3) +
   labs(title = "Top 20 Observations for Model by Year", x = "Model", y = "Year") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+#4. Using the pipe (%>%), group the model and get the number of cars per model.
+```{r}
+library(dplyr)
+
+cars_p_model <- mpg %>%
+  group_by(model) %>%
+  summarise(count = n()) %>%
+  arrange(desc(count))
+
+print(cars_p_model)
+```
+
+```{r}
+#a.) Plot using geom_bar() using the top 20 observations only.
+library(ggplot2)
+library(dplyr)
+
+mpg_top_20 <- mpg %>%
+  arrange(desc(year))
+  head(20)
+  
+ggplot(mpg_top_20, aes(x = reorder(model, -year), fill = manufacturer)) +
+  geom_bar() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(title = "Top 20 Car Models Per Year", x = "Car Model", y = "Number of Cars") +
+  scale_fill_brewer(palette = "Set3")
+```
+
+```{r}
+#b.) Plot using the geom_bar() + coord_flip() just like what is shown below
+library(ggplot2)
+library(dplyr)
+
+mpg_top_20 <- mpg %>%
+  arrange(desc(year)) %>%  
+  head(20)
+
+
+ggplot(mpg_top_20, aes(x = reorder(model, -year), fill = manufacturer)) + 
+  geom_bar() +  
+  coord_flip() +  
+  labs(title = "Top 20 Car Models Per Year", x = "Count of Cars", y = "Car Model") +
+  scale_fill_brewer(palette = "Set2") +  
+  theme_minimal() + 
+  theme(legend.title = element_blank())  
+```
+
+#5. Plotting the relationship between cyl and displ
+```{r}
+#a.) How would you describe its relationship? Show the codes and its result.
+library(ggplot2)
+
+ggplot(mpg, aes(x = cyl, y = displ, color = displ)) + 
+  geom_point(size = 3) +  
+  labs(title = "Relationship between No. of Cylinders and Engine Displacement", 
+       x = "Number of Cylinders", 
+       y = "Engine Displacement") +
+  scale_color_gradient(low = "blue", high = "red") +  
+  theme_minimal() 
+
+#The scatter plot indicates that engine displacement (displ) and cylinder count (cyl) are positively correlated. Engine displacement often rises in tandem with the number of cylinders. In line with automotive design, where greater displacement usually translates into higher power and performance, this pattern implies that cars with more cylinders typically have larger engines.
+```
+
+#6.1 Plot the relationship between displ (engine displacement) and hwy(highway miles per gallon). Mapped it with a continuous variable you have identified in #1-c. What is its result? Why it produced such output?
+```{r}
+library(ggplot2)
+
+ggplot(mpg, aes(x = displ, y = hwy, color = displ)) + 
+  geom_point(size = 3) +  
+  labs(title = "Relationship between Engine Displacement and Highway MPG", 
+       x = "Engine Displacement (L)", 
+       y = "Highway MPG") +
+  scale_color_gradient(low = "blue", high = "red") + 
+  theme_minimal()  
+
+#This scatter plot depicts the relationship between displ and hwy, with color indicating the number of cylinders (cyl). Cars with larger engine displacement (displ) typically have fewer highway miles per gallon (hwy), indicating a trade-off between engine power and fuel efficiency. The output most likely reflects that vehicles with bigger engine displacement and more cylinders consume more fuel, resulting in lower highway numbers.
+```
+
+#6.2 Import the traffic.csv onto your R environment.
+```{r}
+#a.) How many numbers of observation does it have? What are the variables of the traffic dataset?
+traffic_file <- read.csv("traffic.csv")
+
+num_observations <- nrow(traffic_file)
+num_observations
+
+variable <- colnames(traffic_file)
+variable
+
+#The data has a total of 48120 observations and its variables are "DateTime", "Junction", "Vehicles", and "ID".
+```
+
+```{r}
+#b.) Subset the traffic dataset into junctions.
+traffic_data <- read.csv("traffic.csv")
+junctions_list <- split(traffic_data, traffic_data$Junction)
+junctions_list[[1]]
+```
+
+```{r}
+#c.) Plot each junction in a using geom_line()
+library(ggplot2)
+traffic_file <- read.csv("traffic.csv")
+traffic_file$DateTime <- as.POSIXct(traffic_file$DateTime, format="%Y-%m-%d %H:%M:%S")
+ggplot(traffic_file, aes(x = DateTime, y = Vehicles)) +
+  geom_line() +
+  facet_wrap(~ Junction) +
+  labs(title = "Vehicle Counts at Each Junction Over Time", x = "DateTime", y = "Vehicles") +
+  theme_minimal()
+```
+
+#7. From alexa_file.xlsx, import it to your environment
+```{r}
+#a.) How many observations does alexa_file has? What about the number of columns?
+library(readxl)
+alexa_file <- read_excel("alexa_file.xlsx")
+num_obs <- nrow(alexa_file)
+num_cols <- ncol(alexa_file)
+
+print(num_obs)
+print(num_cols)
+
+#The data shows that "alexa_file.xlsx" has a total of 3150 obsevations, and there are 5 number of columns.
+```
+
+```{r}
+#b.) Group the variations and get the total of each variations. Use dplyr package.
+library(dplyr)
+library(readxl)
+alexa_file <- read_excel("alexa_file.xlsx")
+total_variation <- alexa_file %>%
+  group_by(variation) %>%
+  summarise(total = n())
+
+print(total_variation)
+```
+
+```{r}
+#c.) Plot the variations using the ggplot() function. What did you observe?
+library(ggplot2)
+library(dplyr)
+library(readxl)
+alexa_file <- read_excel("alexa_file.xlsx")
+total_variation <- alexa_file %>%
+  group_by(variation) %>%
+  summarise(total = n())
+
+ggplot(total_variation, aes(x = variation, y = total, fill = variation)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Total Number of Each Variation", x = "Variation", y = "Total Number") +
+  theme_minimal()
+
+#This bar chart shows which variation/s are most frequently reviewed, providing insight into consumer preferences or distribution trends for each variation. And I noticed that the color of the bar plot is in rainbow since I didn't use the "col" variable in my code.
+```
+
+```{r}
+#d.) Plot a geom_line() with the date and the number of verified reviews.
+review_counts <- alexa_file %>%
+  group_by(date) %>%
+  summarise(verified_reviews = sum(feedback))
+
+ggplot(review_counts, aes(x = date, y = verified_reviews)) +
+  geom_line(color = "orange") +
+  labs(
+    title = "Verified Reviews Chart",
+    x = "Date",
+    y = "Number of Verified Reviews"
+  ) +
+  theme_minimal()
+```
+
+```{r}
+#e.) Get the relationship of variations and ratings. Which variations got the most highest in rating? Plot a graph to show its relationship.
+library(dplyr)
+library(ggplot2)
+library(readxl)
+alexa_file <- read_excel("alexa_file.xlsx")
+variation_ratings <- alexa_file %>%
+  group_by(variation) %>%
+  summarise(avg_rating = mean(rating, na.rm = TRUE))
+
+ggplot(variation_ratings, aes(x = variation, y = avg_rating, fill = variation)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Rating per Variation", x = "Variation", y = "Average Rating") +
+  theme_minimal()
+
+highest_rating_variation <- variation_ratings %>%
+  filter(avg_rating == max(avg_rating))
+
+print(highest_rating_variation)
+
+#According to the result, the "Walnut Finish" is the highest rating variation with 4.8 average rating.
 ```
 
